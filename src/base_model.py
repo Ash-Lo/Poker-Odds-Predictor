@@ -11,7 +11,7 @@ def draw_cards(N ,suit ,value):
         while len(temp_draw) <2:
             temp_val = random.choice(value)
             temp_suite = random.choice(suit)
-            temp_card = [temp_suite, temp_val]
+            temp_card = temp_suite + str(temp_val)
             if temp_card not in Drawn_Cards:
                 temp_draw.append(temp_card)
                 Drawn_Cards.append(temp_card)
@@ -27,18 +27,27 @@ def community_cards(Drawn_Cards, suit, value):
     for i in range(3):
         temp_val = random.choice(value)
         temp_suite = random.choice(suit)
-        temp_card = [temp_suite, temp_val]
+        temp_card = temp_suite + str(temp_val)
         if temp_card not in Drawn_Cards:
             community_cards.append(temp_card)
 
     return community_cards
 
+def build_deck(suit,value):
+    deck =[]
+    nums = list(value)
+    for i in nums:
+        for s in suit:
+            deck.append(s + str(i))
+    return deck
+
 
 ## Main
 players = 3
 suit = ['D', 'H', 'S', 'C']
-value = [i for i in range(1, 14)]
+value = [i for i in range(2, 15)] #Ace is given value 14
+deck = build_deck(suit,value)
 Player_Hands, Drawn_Cards = draw_cards(players, suit, value)
-Community_cards = community_cards(Drawn_Cards,suit,value)
+Community_cards = community_cards(Drawn_Cards, suit, value)
 print(Player_Hands)
 print(Community_cards)
