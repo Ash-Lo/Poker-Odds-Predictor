@@ -1,10 +1,11 @@
 ## Base code to draw simple cards
+import itertools
 import random
 import Winner_pred
 from itertools import combinations
+from copy import deepcopy
 
-
-def draw_cards(N ,suit ,value):
+def draw_cards(N, suit, value):
     Drawn_Cards = []
     result = {}
     temp_draw = []
@@ -37,13 +38,33 @@ def community_cards(Drawn_Cards, suit, value):
 
 
 def build_deck(suit, value):
-    deck =[]
+    deck = []
     nums = list(value)
     for i in nums:
         for s in suit:
             deck.append(s + str(i))
     return deck
 
+
+def remaining_deck(drawn_cards, deck):
+    drawn_cards_dict = {i: 1 for i in drawn_cards}
+    remaining_deck = []
+    for card in deck:
+        if card not in drawn_cards_dict.keys():
+            remaining_deck.append(card)
+    return remaining_deck
+
+
+def hands_generation(player_cards, community_cards):
+    if len(community_cards) < 3:
+        return None
+    hands_arr = []
+    combinations = list(itertools.combinations(community_cards, 3))
+    for combination in combinations:
+        temp = deepcopy(player_cards)
+        for card in combination: temp.append(card)
+        hands_arr.append(temp)
+    return hands_arr
 
 ## Main
 players = 3
